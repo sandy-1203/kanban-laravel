@@ -21,13 +21,13 @@ const router = new VueRouter({
     ...kanbanRoutes,
     {
       path: '*',
-      redirect: 'error-404',
+      redirect: 'board-list',
     },
   ],
 })
 
 const sendBackToLogin = next => next({ name: 'sign-in' })
-const sendBackToDashboard = next => next({ name: 'home' })
+const sendBackToDashboard = next => next({ name: 'board-list' })
 
 const checkAuth = async (to, from, next) => {
   const loggedIn = await store.dispatch('auth/verifyAuth')

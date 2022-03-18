@@ -165,4 +165,31 @@ export default {
       responseType: 'blob',
     })
   },
+  async createBoard({ commit }, payload) {
+    commit('setState', {
+      key: 'loading',
+      value: true,
+    })
+    try {
+      const res = (await this._vm.$api.post('/board', payload)).data
+      commit('setState', {
+        key: 'loading',
+        value: true,
+      })
+      commit('resetBoard')
+      return res
+    } catch (err) {
+      commit('setState', {
+        key: 'loading',
+        value: false,
+      })
+      throw err
+    }
+  },
+  async deleteBoard(_, id) {
+    return (await this._vm.$api.delete(`/board/${id}`)).data
+  },
+  async boardDataTable(_, params) {
+    return (await this._vm.$api.post('/board/list', params, { cancelToken: 'DATATABLE' })).data.data
+  },
 }

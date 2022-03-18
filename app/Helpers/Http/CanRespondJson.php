@@ -6,6 +6,8 @@ trait CanRespondJson
 {
     public function respond($data = [], $status = HttpStatuses::HTTP_OK, $message = '')
     {
-        return response()->json(['data' => $data, 'message' => $message, 'status_code' => $status], $status);
+        return response()->json(['data' => $data, 'message' => $message, 'status_code' => $status], $status, [
+            'Content-Type' => 'application/json'
+        ]);
     }
 }

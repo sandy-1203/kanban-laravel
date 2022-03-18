@@ -36,6 +36,7 @@ class ColumnService
     {
         $column = $this->columnRepo->findOrFail($id);
         $column->delete();
+        $column->cards()->delete();
         return $column->refresh();
     }
 }

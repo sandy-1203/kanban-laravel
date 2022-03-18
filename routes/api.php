@@ -30,7 +30,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
     Route::prefix('board')->group(function () {
+        Route::post('', [BoardController::class, 'create']);
+        Route::post('list', [BoardController::class, 'dataTable']);
         Route::get('{id}', [BoardController::class, 'find']);
+        Route::delete('{id}', [BoardController::class, 'delete']);
     });
 
     Route::prefix('column')->group(function () {
@@ -47,3 +50,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('export-db', [AuthController::class, 'exportDb']);
 });
+
+Route::get('list-cards', [AuthController::class, 'listCards']);

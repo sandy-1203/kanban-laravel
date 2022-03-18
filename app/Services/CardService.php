@@ -36,8 +36,8 @@ class CardService
         $card = $this->cardRepo->findOrFail($id);
         $column = $this->columnRepo->findOrFail($data['column_id']);
         $this->cardRepo->shiftDisplayOrder($card['display_order'], [['column_id', $card['column_id']]], 1, '-', '>');
-        $this->cardRepo->shiftDisplayOrder($card['display_order'], [['column_id', $column['id']]], 1, '+', '>=');
-        $this->cardRepo->update([['id', $id]], ['display_order' => $data['newIndex'], 'column_id' => $column['id']]);
+        $this->cardRepo->shiftDisplayOrder($data['newIndex'] + 1, [['column_id', $column['id']]], 1, '+', '>=');
+        $this->cardRepo->update([['id', $id]], ['display_order' => $data['newIndex'] + 1, 'column_id' => $column['id']]);
         return $card->refresh();
     }
 

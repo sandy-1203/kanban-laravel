@@ -73,4 +73,7 @@ export default {
     _.set(columns, `[${newColumnIndex}]`, newColumn)
     _.set(state, 'columns', [...columns])
   },
+  resetBoard(state) {
+    _.set(state, 'board', { ...state.emptyBoard })
+  },
 }

@@ -40,9 +40,14 @@ export default {
     return {
       list: [
         {
-          title: 'Dashboard',
+          title: 'Manage Boards',
           icon: 'tachometer-alt',
-          to: { name: 'home' },
+          to: { name: 'board-list' },
+        },
+        {
+          title: 'Create Board',
+          icon: 'tachometer-alt',
+          to: { name: 'create-board' },
         },
       ],
     }

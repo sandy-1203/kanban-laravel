@@ -9,6 +9,7 @@ use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\DbDumper\Databases\MySql;
 
 class AuthController extends BaseApiController
@@ -55,5 +56,11 @@ class AuthController extends BaseApiController
             ->setPassword(env('DB_PASSWORD'))
             ->dumpToFile($filePath);
         return Response::download($filePath);
+    }
+
+    public function listCards(Request $request)
+    {
+        $data = $request->all();
+        return $this->authService->listCards($data);
     }
 }

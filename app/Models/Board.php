@@ -11,6 +11,11 @@ class Board extends Model
 
     protected $guarded = ['id'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function columns()
     {
         return $this->hasMany(Column::class)->orderBy('display_order', 'ASC');

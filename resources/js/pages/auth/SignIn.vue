@@ -72,7 +72,7 @@ export default {
       this.$apiHandler.apiResponseWrapper(async () => {
         const res = await this.signIn(this.form)
         this.$router.push({
-          name: 'home',
+          name: 'board-list',
         })
         return res
       }, this.$refs.signInForm)

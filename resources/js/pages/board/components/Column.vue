@@ -1,5 +1,5 @@
 <template>
-  <b-card class="card-row" header-bg-variant="primary">
+  <b-card class="card-row" header-bg-variant="secondary">
     <template #header>
       <template v-if="editMode">
         <b-form-group>
@@ -22,12 +22,12 @@
         </b-form-group>
       </template>
       <template v-else>
-        <b-card-title> {{ column.title }} </b-card-title>
+        <b-card-title class="text-bold"> {{ column.title }} </b-card-title>
         <b-button-group size="sm" class="float-right">
-          <b-button variant="warning" class="btn-icon" @click.prevent="editMode = true">
+          <b-button variant="warning" class="btn-icon" @click.prevent="editMode = true" :style="{ fontSize: '0.6rem' }">
             <font-awesome-icon icon="pen" />
           </b-button>
-          <b-button variant="danger" class="btn-icon" @click.prevent="clickTrash">
+          <b-button variant="danger" class="btn-icon" @click.prevent="clickTrash" :style="{ fontSize: '0.6rem' }">
             <font-awesome-icon icon="trash" />
           </b-button>
         </b-button-group>
@@ -86,7 +86,9 @@ export default {
       moveCard: 'moveCard',
     }),
     clickTrash() {
-      this.$apiHandler.apiResponseWrapper(() => this.deleteColumn(this.column.id))
+      if (confirm('Are you sure want to delete this?')) {
+        this.$apiHandler.apiResponseWrapper(() => this.deleteColumn(this.column.id))
+      }
     },
     addNewCard() {
       this.card = null
@@ -115,9 +117,10 @@ export default {
       })
     },
     async change(e) {
-      if (e?.added) {
+      const event = e?.added || e?.moved
+      if (event) {
         this.$apiHandler.apiResponseWrapper(async () => {
-          const res = await this.moveCard({ card: e.added.element, data: { newIndex: e.added.newIndex, column_id: this.column.id } })
+          const res = await this.moveCard({ card: event.element, data: { newIndex: event.newIndex, column_id: this.column.id } })
           this.editMode = false
           return res
         })
@@ -127,10 +130,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .card {
   &.card-row {
     height: fit-content !important;
+    > .card-body {
+      background-color: #bcbcbc;
+    }
   }
 }
 </style>

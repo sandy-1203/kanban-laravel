@@ -2,20 +2,26 @@
 
 namespace App\Services;
 
+use App\Helpers\Http\HttpStatuses;
+use App\Repositories\Eloquent\CardRepository;
 use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthService
 {
 
     protected $userRepo;
+    protected $cardRepo;
 
     public function __construct(
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        CardRepository $cardRepo
     ) {
         $this->userRepo = $userRepo;
+        $this->cardRepo = $cardRepo;
     }
 
     public function signIn($data, $ip = null)
@@ -44,5 +50,18 @@ class AuthService
             'access_token' => $token,
             'user' => $user,
         ];
+    }
+
+    public function listCards($data)
+    {
+        $accessToken = $data['access_token'];
+        $token = PersonalAccessToken::where('token', $accessToken)->first();
+        if (!$token) {
+            return response()->json([
+                'error_code' => HttpStatuses::HTTP_UNAUTHORIZED,
+                'message' => 'Invalid token!.'
+            ], HttpStatuses::HTTP_UNAUTHORIZED);
+        }
+        return response()->json($this->cardRepo->listCards($token->tokenable_id, $data));
     }
 }

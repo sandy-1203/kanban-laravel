@@ -7,7 +7,7 @@
       </b-container>
     </b-col>
     <b-col cols="12">
-      <b-button class="float-right" variant="success" @click.prevent="exportDB">Export DB</b-button>
+      <b-button class="float-right fixed-bottom-right" variant="success" @click.prevent="exportDB">Export DB</b-button>
     </b-col>
   </b-row>
 </template>
@@ -41,3 +41,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.btn {
+  &.fixed-bottom-right {
+    position: fixed;
+    bottom: 4rem !important;
+    right: 10px !important;
+  }
+}
+</style>
